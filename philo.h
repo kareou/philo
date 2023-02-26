@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:24:01 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/02/25 16:43:10 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/02/26 11:59:22 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,6 @@ void	is_dead(t_philo *philo, t_main *args);
 void	check_positive(char **a); 
 void	start_thread(t_main *args);
 void	*task(void *i);
+void    better_usleep(t_main *args, int bar);
+
 #endif

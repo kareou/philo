@@ -8,16 +8,17 @@ SRC = main.c utils.c task_utils.c
 
 all = $(NAME)
 
-NAME : 
-	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
+OBJ = $(SRC:.c=.o)
+
+$(NAME): $(OBJ)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+
+all : $(NAME)
 
 clean :
-	rm *.c
+	$(RM) *.o
 
 fclean : clean
-		rm $(NAME)
+	$(RM) $(NAME)
 
-re : fclean 
-	all
-
-phony : clean fclean re
+re : fclean all

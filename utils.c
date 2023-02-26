@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:36:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/02/25 16:43:00 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/02/26 13:05:10 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,22 @@ void picking(t_philo *philo)
     t_main *args = philo->main;
 
     pthread_mutex_lock(&args->forks[philo->fork_left]);
+    print_task(args, "picked forks", philo->id);
+    if( args->number_of_philos == 1)
+    {
+        print_task(args,"died",philo->id);
+        args->is_died = 1;
+        return ;
+    }
     pthread_mutex_lock(&args->forks[philo->fork_right]);
-    print_task(args, "picked fork", philo->id);
-    // print_task(args, "picked fork", philo->id);
+    print_task(args, "picked forks", philo->id);
     print_task(args, "eating", philo->id);
-    usleep(args->time_to_eat * 1000);
-    philo->meal_eated++;
     philo->last_meal = current_time();
+    philo->meal_eated++;
+    better_usleep(args,args->time_to_eat);
     pthread_mutex_unlock(&args->forks[philo->fork_left]);
     pthread_mutex_unlock(&args->forks[philo->fork_right]);
-    // print_task(args, "puted fork", philo->id);
-    print_task(args, "puted fork", philo->id);
+    print_task(args, "puted forks", philo->id);
 }
 
 int ft_atoi(const char *str)
