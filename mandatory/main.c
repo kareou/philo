@@ -6,91 +6,82 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 11:20:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/02 12:32:37 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/02 16:25:32 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void print_task(t_main *args, char *a, int i)
+//PRINT WHAT PHILOS ARE DOING
+void	print_task(t_main *args, char *a, int i)
 {
-    pthread_mutex_lock(&args->decalre);
-    if (!args->is_died)
-        printf("%ld\t%d\t%s\n", (current_time() - args->start_time), i, a);
-    pthread_mutex_unlock(&args->decalre);
+	pthread_mutex_lock(&args->decalre);
+	if (!args->is_died)
+		printf("%ld\t%d\t%s\n", (current_time() - args->start_time), i, a);
+	pthread_mutex_unlock(&args->decalre);
 }
 
-void check_all_eated(t_main *args)
+//CHECK IF ALL EATED
+void	check_all_eated(t_main *args)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (++i < args->number_of_philos)
-    {
-        if (args->philo[i].meal_eated < args->number_of_mealls)
-            return;
-    }
-    args->all_eat = 1;
+	i = -1;
+	while (++i < args->number_of_philos)
+	{
+		if (args->philo[i].meal_eated < args->number_of_mealls)
+			return ;
+	}
+	args->all_eat = 1;
 }
 
-long current_time()
+//TIME COUNTER
+long	current_time(void)
 {
-    struct timeval time;
+	struct timeval	time;
 
-    gettimeofday(&time, NULL);
-    return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void *task(void *i)
+//THREAD WORK
+void	*task(void *i)
 {
-    t_philo *philo = (t_philo *)i;
-    t_main *args;
-    args = philo->main;
+	t_philo	*philo;
+	t_main	*args;
 
-    if (philo->id % 2 == 0)
-        usleep(1500);
-    print_task(args, "thinking", philo->id);
-    while (!(args->is_died) && !(args->all_eat))
-    {
-        picking(philo);
-        print_task(args, "sleeping", philo->id);
-        better_usleep(args,args->time_to_sleep);
-        print_task(args, "thinking", philo->id);
-    }
-    return (NULL);
+	philo = (t_philo *)i;
+	args = philo->main;
+	if (philo->id % 2 == 0)
+		usleep(1500);
+	print_task(args, "thinking", philo->id);
+	while (!(args->is_died) && !(args->all_eat))
+	{
+		picking(philo);
+		print_task(args, "sleeping", philo->id);
+		better_usleep(args, args->time_to_sleep);
+		print_task(args, "thinking", philo->id);
+	}
+	return (NULL);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-    if (ac < 5)
-        return (1);
-    t_main *args;
-    int i;
+	t_main	*args;
 
-    check_positive(av);
-    args = malloc(sizeof(t_main));
-    init_main(args, av);
-    start_thread(args);
-    while (!(args->is_died) && !(args->all_eat))
-    {
-        is_dead(args->philo, args);
-        if (args->number_of_mealls > 0)
-            check_all_eated(args);
-    }
-    i = -1;
-    while (++i < args->number_of_philos)
-    {
-        if (pthread_join(args->philo[i].number_of_philo, NULL))
-            exit(1);
-    }
-    i = 0;
-    while (i < args->number_of_philos)
-    {
-        pthread_mutex_destroy(&args->forks[i]);
-        i++;
-    }
-    pthread_mutex_destroy(&args->decalre);
-    free(args->philo);
-    free(args->forks);
-    free(args);
+	if (ac < 5)
+		return (1);
+	if (!check_positive(av))
+		return (0);
+	args = malloc(sizeof(t_main));
+	if (!args)
+		return (0);
+	if (!init_main(args, av))
+	{
+		free(args);
+		return (0);
+	}
+	start_thread(args);
+	check_deads(args);
+	join_threads(args);
 }
