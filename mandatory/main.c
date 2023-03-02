@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 11:20:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/02/26 13:28:40 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/02 12:32:37 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,12 @@ void *task(void *i)
     t_main *args;
     args = philo->main;
 
-    if (philo->id % 2 != 0)
+    if (philo->id % 2 == 0)
         usleep(1500);
     print_task(args, "thinking", philo->id);
     while (!(args->is_died) && !(args->all_eat))
     {
         picking(philo);
-        if (args->number_of_mealls > 0)
-            check_all_eated(args);
         print_task(args, "sleeping", philo->id);
         better_usleep(args,args->time_to_sleep);
         print_task(args, "thinking", philo->id);
@@ -65,7 +63,7 @@ void *task(void *i)
 int main(int ac, char **av)
 {
     if (ac < 5)
-        return (0);
+        return (1);
     t_main *args;
     int i;
 
@@ -74,7 +72,11 @@ int main(int ac, char **av)
     init_main(args, av);
     start_thread(args);
     while (!(args->is_died) && !(args->all_eat))
+    {
         is_dead(args->philo, args);
+        if (args->number_of_mealls > 0)
+            check_all_eated(args);
+    }
     i = -1;
     while (++i < args->number_of_philos)
     {
@@ -90,4 +92,5 @@ int main(int ac, char **av)
     pthread_mutex_destroy(&args->decalre);
     free(args->philo);
     free(args->forks);
+    free(args);
 }

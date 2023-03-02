@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:36:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/02/26 13:05:10 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/02 12:30:48 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void picking(t_philo *philo)
     print_task(args, "puted forks", philo->id);
 }
 
-int ft_atoi(const char *str)
+int ft_atoi(char *str)
 {
     int i;
     int res;
@@ -59,7 +59,7 @@ void    check_positive(char **a)
     while (a[i])
     {
         if(ft_atoi(a[i]) <= 0)
-            exit(0);
+            return ;
         i++;
     }
 }
@@ -86,7 +86,7 @@ void init_main(t_main *args, char **av)
     while (++i < args->number_of_philos)
     {
         if (pthread_mutex_init(&args->forks[i], NULL))
-            exit(1);
+           return ;
     }
 }
 

@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:24:01 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/02/26 11:59:22 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/02 12:30:11 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_main
 
 void	picking(t_philo *philo);
 void	puting(t_philo *philo);
-int		ft_atoi(const char *str);
+int		ft_atoi(char *str);
 long	current_time();
 void	init_main(t_main *args, char **av);
 void	print_task(t_main *args, char *a, int i);

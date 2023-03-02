@@ -1,10 +1,10 @@
-NAME = philo
+NAME = philo_bonus
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
-SRC = main.c utils.c task_utils.c
+SRC = main_bonus.c utils_bonus.c task_utils_bonus.c
 
 all = $(NAME)
 
