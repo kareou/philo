@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:03:07 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/04 12:04:40 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/04 17:12:03 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,20 @@ void	better_usleep(t_main *args, int bar)
 			break ;
 		usleep(50);
 	}
+}
+
+void	wait_chillds(int status, t_main *args, int *id_tabel)
+{
+	int	i;
+
+	while (!status)
+	{
+		i = -1;
+		while (++i < args->number_of_philos && !status)
+			waitpid(id_tabel[i], &status, 0);
+	}
+	i = -1;
+	while (++i < args->number_of_philos)
+		kill(id_tabel[i], 9);
+	free(id_tabel);
 }

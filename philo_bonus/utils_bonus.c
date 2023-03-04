@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:31:38 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/04 12:06:08 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/04 17:10:37 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,7 @@ void	start_thread(t_main *args)
 		else
 			id_tabel[i] = id;
 	}
-	while (!status)
-	{
-		i = -1;
-		while (++i < args->number_of_philos && !status)
-		{
-			waitpid(id_tabel[i], &status, 0);
-		}
-	}
-	i = -1;
-	while (++i < args->number_of_philos)
-		kill(id_tabel[i], 9);
-	free(id_tabel);
+	wait_chillds(status, args, id_tabel);
 }
 
 void	picking(t_philo *philo)
@@ -74,7 +63,7 @@ void	picking(t_philo *philo)
 
 	args = philo->main;
 	sem_wait(args->forks);
-	print_task(args, "picked forks", philo->id);
+	print_task(args, "has taken a fork", philo->id);
 	if (args->number_of_philos == 1)
 	{
 		better_usleep(args, args->time_to_die);
@@ -82,8 +71,8 @@ void	picking(t_philo *philo)
 		return ;
 	}
 	sem_wait(args->forks);
-	print_task(args, "picked forks", philo->id);
-	print_task(args, "eating", philo->id);
+	print_task(args, "has taken a fork", philo->id);
+	print_task(args, "is eating", philo->id);
 	philo->last_meal = current_time();
 	philo->meal_eated++;
 	better_usleep(args, args->time_to_eat);
@@ -96,15 +85,40 @@ void	picking(t_philo *philo)
 int	ft_atoi(const char *str)
 {
 	int	i;
+	int	sign;
 	int	res;
 
 	i = 0;
 	res = 0;
+	sign = 1;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-')
+	{
+		sign *= -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
 	while (str && str[i] >= 48 && str[i] <= 57)
 	{
 		res = res * 10;
 		res = res + str[i] - 48;
 		i++;
 	}
-	return (res);
+	return (res * sign);
+}
+
+int	check_positive(char **a)
+{
+	int	i;
+
+	i = 1;
+	while (a[i])
+	{
+		if (ft_atoi(a[i]) <= 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }

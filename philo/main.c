@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/26 14:46:20 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/04 12:04:27 by mkhairou         ###   ########.fr       */
+/*   Created: 2023/02/09 11:20:21 by mkhairou          #+#    #+#             */
+/*   Updated: 2023/03/04 17:26:32 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 
-long	current_time(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
-}
-
+//PRINT WHAT PHILOS ARE DOING
 void	print_task(t_main *args, char *a, int i)
 {
+	pthread_mutex_lock(&args->decalre);
 	if (!args->is_died)
-		printf("%ld\t%d\t%s\n", (current_time() - args->start_time), i, a);
+		printf("%ld %d %s\n", (current_time() - args->start_time), i, a);
+	pthread_mutex_unlock(&args->decalre);
 }
 
+//CHECK IF ALL EATED
 void	check_all_eated(t_main *args)
 {
 	int	i;
@@ -39,24 +35,32 @@ void	check_all_eated(t_main *args)
 	args->all_eat = 1;
 }
 
-void	*task(t_philo *philo)
+//TIME COUNTER
+long	current_time(void)
 {
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+//THREAD WORK
+void	*task(void *i)
+{
+	t_philo	*philo;
 	t_main	*args;
 
+	philo = (t_philo *)i;
 	args = philo->main;
 	if (philo->id % 2 == 0)
 		usleep(1500);
-	print_task(args, "thinking", philo->id);
-	pthread_create(&philo->death, NULL, &is_dead, philo);
 	while (!(args->is_died) && !(args->all_eat))
 	{
 		picking(philo);
-		print_task(args, "sleeping", philo->id);
+		print_task(args, "is sleeping", philo->id);
 		better_usleep(args, args->time_to_sleep);
-		print_task(args, "thinking", philo->id);
+		print_task(args, "is thinking", philo->id);
 	}
-	pthread_join(philo->death, NULL);
-	exit(1);
 	return (NULL);
 }
 
@@ -66,12 +70,17 @@ int	main(int ac, char **av)
 
 	if (ac < 5)
 		return (1);
+	if (!check_positive(av))
+		return (0);
 	args = malloc(sizeof(t_main));
-	init_main(args, av);
-	sem_unlink("/forks");
-	args->forks = sem_open("/forks", O_CREAT, 0777, args->number_of_philos);
+	if (!args)
+		return (0);
+	if (!init_main(args, av))
+	{
+		free(args);
+		return (0);
+	}
 	start_thread(args);
-	sem_close(args->forks);
-	sem_unlink("/forks");
-	free(args->philo);
+	check_deads(args);
+	join_threads(args);
 }

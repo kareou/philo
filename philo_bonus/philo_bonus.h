@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:19:35 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/04 11:15:42 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/04 17:06:57 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@ void				better_usleep(t_main *args, int bar);
 void				*is_dead(void *phil);
 int					ft_atoi(const char *str);
 void				print_task(t_main *args, char *a, int i);
+int					check_positive(char **a);
+void				wait_chillds(int status, t_main *args, int *tabel_id);
 
 #endif

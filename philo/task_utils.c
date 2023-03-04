@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 12:37:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/02 16:13:53 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:32:04 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ void	better_usleep(t_main *args, int bar)
 	while (!(args->is_died))
 	{
 		if (current_time() - i >= bar)
-		{
 			break ;
-		}
 		usleep(50);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:36:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/02 16:15:17 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/04 17:26:35 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	picking(t_philo *philo)
 
 	args = philo->main;
 	pthread_mutex_lock(&args->forks[philo->fork_left]);
-	print_task(args, "picked forks", philo->id);
+	print_task(args, "has taken a fork", philo->id);
 	if (args->number_of_philos == 1)
 	{
 		better_usleep(args, args->time_to_die);
@@ -27,14 +27,13 @@ void	picking(t_philo *philo)
 		return ;
 	}
 	pthread_mutex_lock(&args->forks[philo->fork_right]);
-	print_task(args, "picked forks", philo->id);
-	print_task(args, "eating", philo->id);
+	print_task(args, "has taken a fork", philo->id);
+	print_task(args, "is eating", philo->id);
 	philo->last_meal = current_time();
 	philo->meal_eated++;
 	better_usleep(args, args->time_to_eat);
 	pthread_mutex_unlock(&args->forks[philo->fork_left]);
 	pthread_mutex_unlock(&args->forks[philo->fork_right]);
-	print_task(args, "puted forks", philo->id);
 }
 
 //ATOI
