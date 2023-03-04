@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:31:38 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/02 16:30:50 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/04 12:06:08 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ void	start_thread(t_main *args)
 {
 	int		i;
 	int		id;
-	pid_t	pid[args->number_of_philos];
+	int		status;
+	int		*id_tabel;
 
+	status = 0;
+	id_tabel = malloc(sizeof(int) * args->number_of_philos);
 	i = -1;
 	while (++i < args->number_of_philos)
 	{
@@ -41,8 +44,6 @@ void	start_thread(t_main *args)
 		if (id == 0)
 		{
 			args->philo[i].id = i + 1;
-			args->philo[i].fork_left = i;
-			args->philo[i].fork_right = (i + 1) % args->number_of_philos;
 			args->philo[i].meal_eated = 0;
 			args->philo[i].main = args;
 			args->philo[i].last_meal = current_time();
@@ -51,14 +52,20 @@ void	start_thread(t_main *args)
 		else if (id < 0)
 			exit(1);
 		else
-			pid[i] = id;
+			id_tabel[i] = id;
 	}
-	i = 0;
-	while (i < args->number_of_philos)
+	while (!status)
 	{
-		waitpid(pid[i], NULL, 0);
-		i++;
+		i = -1;
+		while (++i < args->number_of_philos && !status)
+		{
+			waitpid(id_tabel[i], &status, 0);
+		}
 	}
+	i = -1;
+	while (++i < args->number_of_philos)
+		kill(id_tabel[i], 9);
+	free(id_tabel);
 }
 
 void	picking(t_philo *philo)

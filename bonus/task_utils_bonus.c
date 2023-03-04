@@ -6,27 +6,37 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:03:07 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/02 16:32:08 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/04 12:04:40 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	is_dead(t_philo *philo, t_main *args)
+void	*is_dead(void *phil)
 {
 	int		i;
+	t_philo	*philo;
+	t_main	*args;
 	long	time;
 
+	philo = (t_philo *)phil;
+	args = philo->main;
 	i = -1;
-	while (++i < args->number_of_philos)
+	while (!args->is_died && !args->all_eat)
 	{
 		time = (current_time() - philo->last_meal);
 		if (time >= args->time_to_die)
 		{
-			print_task(args, "died", i + 1);
+			print_task(args, "died", philo->id);
 			args->is_died = 1;
 		}
+		if (args->number_of_mealls > 0)
+		{
+			if (philo->meal_eated == args->number_of_mealls)
+				args->all_eat = 1;
+		}
 	}
+	return (NULL);
 }
 
 void	better_usleep(t_main *args, int bar)
@@ -37,9 +47,7 @@ void	better_usleep(t_main *args, int bar)
 	while (!(args->is_died))
 	{
 		if (current_time() - i >= bar)
-		{
 			break ;
-		}
 		usleep(50);
 	}
 }

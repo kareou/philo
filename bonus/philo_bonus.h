@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:19:35 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/02 16:29:16 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/04 11:15:42 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ struct	s_main;
 typedef struct s_philo
 {
 	int				id;
-	int				fork_left;
-	int				fork_right;
 	int				meal_eated;
 	long			last_meal;
-	pthread_t		number_of_philo;
+	pthread_t		death;
 	struct s_main	*main;
 }					t_philo;
 
@@ -55,7 +53,7 @@ void				*task(t_philo *philo);
 long				current_time(void);
 void				picking(t_philo *philo);
 void				better_usleep(t_main *args, int bar);
-void				is_dead(t_philo *philo, t_main *args);
+void				*is_dead(void *phil);
 int					ft_atoi(const char *str);
 void				print_task(t_main *args, char *a, int i);
 

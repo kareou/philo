@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:46:20 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/02 16:31:53 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/04 12:04:27 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ void	*task(t_philo *philo)
 	if (philo->id % 2 == 0)
 		usleep(1500);
 	print_task(args, "thinking", philo->id);
+	pthread_create(&philo->death, NULL, &is_dead, philo);
 	while (!(args->is_died) && !(args->all_eat))
 	{
 		picking(philo);
-		if (args->number_of_mealls > 0)
-			check_all_eated(args);
 		print_task(args, "sleeping", philo->id);
 		better_usleep(args, args->time_to_sleep);
 		print_task(args, "thinking", philo->id);
-		is_dead(philo, args);
 	}
+	pthread_join(philo->death, NULL);
+	exit(1);
 	return (NULL);
 }
 
