@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:31:38 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/04 17:10:37 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 11:17:01 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	start_thread(t_main *args)
 {
 	int		i;
 	int		id;
-	int		status;
 	int		*id_tabel;
 
-	status = 0;
 	id_tabel = malloc(sizeof(int) * args->number_of_philos);
+	if (!id_tabel)
+		exit(1);
 	i = -1;
 	while (++i < args->number_of_philos)
 	{
@@ -54,7 +54,7 @@ void	start_thread(t_main *args)
 		else
 			id_tabel[i] = id;
 	}
-	wait_chillds(status, args, id_tabel);
+	wait_chillds(args, id_tabel);
 }
 
 void	picking(t_philo *philo)

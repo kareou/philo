@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:03:07 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/04 17:12:03 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 11:14:32 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ void	*is_dead(void *phil)
 		time = (current_time() - philo->last_meal);
 		if (time >= args->time_to_die)
 		{
+			sem_wait(args->died);
 			print_task(args, "died", philo->id);
-			args->is_died = 1;
+			exit(1);
 		}
 		if (args->number_of_mealls > 0)
 		{
@@ -52,16 +53,11 @@ void	better_usleep(t_main *args, int bar)
 	}
 }
 
-void	wait_chillds(int status, t_main *args, int *id_tabel)
+void	wait_chillds(t_main *args, int *id_tabel)
 {
 	int	i;
 
-	while (!status)
-	{
-		i = -1;
-		while (++i < args->number_of_philos && !status)
-			waitpid(id_tabel[i], &status, 0);
-	}
+	waitpid(-1, 0, 0);
 	i = -1;
 	while (++i < args->number_of_philos)
 		kill(id_tabel[i], 9);

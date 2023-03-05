@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:36:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/04 17:26:35 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/04 17:47:32 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	picking(t_philo *philo)
 	if (args->number_of_philos == 1)
 	{
 		better_usleep(args, args->time_to_die);
-		args->is_died = 1;
 		return ;
 	}
 	pthread_mutex_lock(&args->forks[philo->fork_right]);
