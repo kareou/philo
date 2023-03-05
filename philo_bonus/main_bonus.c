@@ -6,13 +6,13 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:46:20 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 12:48:54 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 13:49:48 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-long	current_time(void)
+long long	current_time(void)
 {
 	struct timeval	time;
 
@@ -23,7 +23,7 @@ long	current_time(void)
 void	print_task(t_main *args, char *a, int i)
 {
 	if (!args->is_died)
-		printf("%ld\t%d\t%s\n", (current_time() - args->start_time), i, a);
+		printf("%lld %d %s\n", (current_time() - args->start_time), i, a);
 }
 
 void	*task(t_philo *philo)

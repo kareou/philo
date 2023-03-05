@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 11:20:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 13:21:03 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 13:53:46 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_task(t_main *args, char *a, int i)
 {
 	pthread_mutex_lock(&args->decalre);
 	if (!args->is_died)
-		printf("%ld %d %s\n", (current_time() - args->start_time), i, a);
+		printf("%lld %d %s\n", (current_time() - args->start_time), i, a);
 	pthread_mutex_unlock(&args->decalre);
 }
 
@@ -36,7 +36,7 @@ void	check_all_eated(t_main *args)
 }
 
 //TIME COUNTER
-long	current_time(void)
+long long	current_time(void)
 {
 	struct timeval	time;
 

@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 16:00:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 13:19:45 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 13:48:27 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_philo
 	int				fork_left;
 	int				fork_right;
 	int				meal_eated;
-	long			last_meal;
+	long long		last_meal;
 	pthread_t		number_of_philo;
 	struct s_main	*main;
 }					t_philo;
@@ -39,7 +39,7 @@ typedef struct s_main
 	int				number_of_philos;
 	int				is_died;
 	int				all_eat;
-	long			start_time;
+	long long		start_time;
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	decalre;
@@ -47,7 +47,7 @@ typedef struct s_main
 
 void				picking(t_philo *philo);
 int					ft_atoi(char *str);
-long				current_time(void);
+long long			current_time(void);
 int					init_main(t_main *args, char **av);
 void				print_task(t_main *args, char *a, int i);
 void				is_dead(t_philo *philo, t_main *args);
