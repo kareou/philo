@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 16:00:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/02 16:13:39 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 13:19:45 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
-
-struct	s_main;
 
 typedef struct s_philo
 {
@@ -48,14 +46,13 @@ typedef struct s_main
 }					t_main;
 
 void				picking(t_philo *philo);
-void				puting(t_philo *philo);
 int					ft_atoi(char *str);
 long				current_time(void);
 int					init_main(t_main *args, char **av);
 void				print_task(t_main *args, char *a, int i);
 void				is_dead(t_philo *philo, t_main *args);
 int					check_positive(char **a);
-void				start_thread(t_main *args);
+int					start_thread(t_main *args);
 void				*task(void *i);
 void				better_usleep(t_main *args, int bar);
 void				check_deads(t_main *args);

@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:36:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/04 17:47:32 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 13:21:23 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	init_main(t_main *args, char **av)
 }
 
 //START THREAD WORK
-void	start_thread(t_main *args)
+int	start_thread(t_main *args)
 {
 	int	i;
 
@@ -120,7 +120,8 @@ void	start_thread(t_main *args)
 		args->philo[i].main = args;
 		if (pthread_create(&args->philo[i].number_of_philo, NULL, &task,
 				&args->philo[i]))
-			exit(1);
+			return (0);
 		args->philo[i].last_meal = current_time();
 	}
+	return (1);
 }

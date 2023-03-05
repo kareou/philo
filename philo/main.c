@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 11:20:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/04 17:26:32 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 13:21:03 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ int	main(int ac, char **av)
 		free(args);
 		return (0);
 	}
-	start_thread(args);
+	if (!start_thread(args))
+		return (1);
 	check_deads(args);
 	join_threads(args);
 }

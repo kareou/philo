@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:19:35 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 11:13:10 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 13:19:40 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
-# include <sys/types.h>
 # include <unistd.h>
-
-struct	s_main;
 
 typedef struct s_philo
 {
