@@ -6,22 +6,20 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:03:07 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 11:14:32 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 16:46:30 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	*is_dead(void *phil)
+void *is_dead(void *phil)
 {
-	int		i;
-	t_philo	*philo;
-	t_main	*args;
-	long	time;
+	t_philo *philo;
+	t_main *args;
+	long time;
 
 	philo = (t_philo *)phil;
 	args = philo->main;
-	i = -1;
 	while (!args->is_died && !args->all_eat)
 	{
 		time = (current_time() - philo->last_meal);
@@ -33,33 +31,33 @@ void	*is_dead(void *phil)
 		}
 		if (args->number_of_mealls > 0)
 		{
-			if (philo->meal_eated == args->number_of_mealls)
+			if (philo->meal_eated >= args->number_of_mealls)
 				args->all_eat = 1;
 		}
 	}
 	return (NULL);
 }
 
-void	better_usleep(t_main *args, int bar)
+void better_usleep(t_main *args, int bar)
 {
-	long	i;
+	long i;
 
 	i = current_time();
 	while (!(args->is_died))
 	{
 		if (current_time() - i >= bar)
-			break ;
+			break;
 		usleep(50);
 	}
 }
 
-void	wait_chillds(t_main *args, int *id_tabel)
+void wait_chillds(t_main *args, int *id_tabel)
 {
-	int	i;
+	int i;
 
 	waitpid(-1, 0, 0);
 	i = -1;
 	while (++i < args->number_of_philos)
-		kill(id_tabel[i], 9);
+		kill(id_tabel[i], 15);
 	free(id_tabel);
 }

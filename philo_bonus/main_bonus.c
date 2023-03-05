@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:46:20 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 13:49:48 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/05 16:45:15 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	*task(t_philo *philo)
 		print_task(args, "is thinking", philo->id);
 	}
 	pthread_join(philo->death, NULL);
-	exit(1);
+	exit(0);
 	return (NULL);
 }
 
