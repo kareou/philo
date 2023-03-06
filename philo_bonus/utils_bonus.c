@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:31:38 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/06 12:10:56 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/06 14:12:11 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ void	picking(t_philo *philo)
 	philo->last_meal = current_time();
 	better_usleep(args, args->time_to_eat);
 	sem_post(args->forks);
-	print_task(args, "puted forks", philo->id);
 	sem_post(args->forks);
-	print_task(args, "puted forks", philo->id);
 }
 
 int	ft_atoi(const char *str)

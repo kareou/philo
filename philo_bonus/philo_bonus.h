@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:19:35 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/06 12:09:45 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/06 14:10:50 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_main
 	sem_t			*forks;
 	sem_t			*died;
 	sem_t			*eat;
+	sem_t			*declare;
 }					t_main;
 
 void				init_main(t_main *args, char **av);
