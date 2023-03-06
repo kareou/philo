@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:46:20 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 16:45:15 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/06 12:04:39 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ void	*task(t_philo *philo)
 	if (philo->id % 2 == 0)
 		usleep(1500);
 	if (pthread_create(&philo->death, NULL, &is_dead, philo))
+	{
+		printf("hhh\n");
 		exit(1);
+	}
 	while (!(args->is_died) && !(args->all_eat))
 	{
 		picking(philo);
@@ -43,7 +46,6 @@ void	*task(t_philo *philo)
 		print_task(args, "is thinking", philo->id);
 	}
 	pthread_join(philo->death, NULL);
-	exit(0);
 	return (NULL);
 }
 
@@ -61,10 +63,17 @@ int	main(int ac, char **av)
 	args->forks = sem_open("/forks", O_CREAT, 0777, args->number_of_philos);
 	sem_unlink("/died");
 	args->died = sem_open("/died", O_CREAT, 0777, 1);
+	if (args->number_of_mealls > 0)
+	{
+		sem_unlink("/eat");
+		args->eat = sem_open("/eat", O_CREAT, 0777, 0);
+	}
 	start_thread(args);
 	sem_close(args->forks);
 	sem_unlink("/forks");
 	sem_close(args->died);
 	sem_unlink("/died");
+	sem_close(args->eat);
+	sem_unlink("/eat");
 	free(args->philo);
 }

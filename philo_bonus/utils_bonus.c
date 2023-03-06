@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:31:38 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 15:36:35 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/06 12:10:56 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	init_main(t_main *args, char **av)
 	args->time_to_sleep = ft_atoi(av[4]);
 	args->is_died = 0;
 	args->all_eat = 0;
+	args->eat_trgr = 0;
 	args->start_time = current_time();
 	if (av[5] != 0)
 		args->number_of_mealls = ft_atoi(av[5]);
@@ -32,10 +33,9 @@ void	start_thread(t_main *args)
 {
 	int		i;
 	int		id;
-	int		*id_tabel;
 
-	id_tabel = malloc(sizeof(int) * args->number_of_philos);
-	if (!id_tabel)
+	args->id_tabel = malloc(sizeof(int) * args->number_of_philos);
+	if (!args->id_tabel)
 		exit(1);
 	i = -1;
 	while (++i < args->number_of_philos)
@@ -52,9 +52,9 @@ void	start_thread(t_main *args)
 		else if (id < 0)
 			exit(1);
 		else
-			id_tabel[i] = id;
+			args->id_tabel[i] = id;
 	}
-	wait_chillds(args, id_tabel);
+	wait_chillds(args);
 }
 
 void	picking(t_philo *philo)

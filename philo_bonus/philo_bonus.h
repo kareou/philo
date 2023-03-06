@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:19:35 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 15:35:36 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/06 12:09:45 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,12 @@ typedef struct s_main
 	int				is_died;
 	int				all_eat;
 	long long		start_time;
+	int				*id_tabel;
+	int				eat_trgr;
 	t_philo			*philo;
 	sem_t			*forks;
 	sem_t			*died;
+	sem_t			*eat;
 }					t_main;
 
 void				init_main(t_main *args, char **av);
@@ -55,6 +58,6 @@ void				*is_dead(void *phil);
 int					ft_atoi(const char *str);
 void				print_task(t_main *args, char *a, int i);
 int					check_positive(char **a);
-void				wait_chillds(t_main *args, int *tabel_id);
+void				wait_chillds(t_main *args);
 
 #endif
