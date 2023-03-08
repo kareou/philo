@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:31:38 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/06 14:12:11 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/08 11:36:43 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	init_main(t_main *args, char **av)
 	args->time_to_eat = ft_atoi(av[3]);
 	args->time_to_sleep = ft_atoi(av[4]);
 	args->is_died = 0;
-	args->all_eat = 0;
 	args->eat_trgr = 0;
 	args->start_time = current_time();
 	if (av[5] != 0)

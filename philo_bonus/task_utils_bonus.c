@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:03:07 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/06 12:10:36 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/08 11:40:34 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*is_dead(void *phil)
 
 	philo = (t_philo *)phil;
 	args = philo->main;
-	while (!args->is_died && !args->all_eat)
+	while (1)
 	{
 		time = (current_time() - philo->last_meal);
 		if (time >= args->time_to_die)
@@ -81,4 +81,19 @@ void	wait_chillds(t_main *args)
 	while (++i < args->number_of_philos)
 		kill(args->id_tabel[i], 15);
 	free(args->id_tabel);
+}
+
+void	init_semphor(t_main *args)
+{
+	sem_unlink("/forks");
+	args->forks = sem_open("/forks", O_CREAT, 0777, args->number_of_philos);
+	sem_unlink("/died");
+	args->died = sem_open("/died", O_CREAT, 0777, 1);
+	sem_unlink("/declare");
+	args->declare = sem_open("/declare", O_CREAT, 0777, 1);
+	if (args->number_of_mealls > 0)
+	{
+		sem_unlink("/eat");
+		args->eat = sem_open("/eat", O_CREAT, 0777, 0);
+	}
 }

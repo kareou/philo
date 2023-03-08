@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:19:35 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/06 14:10:50 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/08 11:36:26 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_main
 	int				number_of_mealls;
 	int				number_of_philos;
 	int				is_died;
-	int				all_eat;
 	long long		start_time;
 	int				*id_tabel;
 	int				eat_trgr;
@@ -60,5 +59,6 @@ int					ft_atoi(const char *str);
 void				print_task(t_main *args, char *a, int i);
 int					check_positive(char **a);
 void				wait_chillds(t_main *args);
+void				init_semphor(t_main *args);
 
 #endif
