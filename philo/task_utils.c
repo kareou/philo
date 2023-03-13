@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 12:37:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/04 13:32:04 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/12 14:14:54 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,26 @@ void	is_dead(t_philo *philo, t_main *args)
 	i = -1;
 	while (++i < args->number_of_philos)
 	{
+		pthread_mutex_lock(&args->time[i]);
 		time = (current_time() - philo[i].last_meal);
+		pthread_mutex_unlock(&args->time[i]);
 		if (time >= args->time_to_die)
 		{
 			print_task(args, "died", i + 1);
+			pthread_mutex_lock(&args->decalre);
 			args->is_died = 1;
+			pthread_mutex_unlock(&args->decalre);
 		}
 	}
 }
 
 // MY PERSONAL USLEEP
-void	better_usleep(t_main *args, int bar)
+void	better_usleep(int bar)
 {
 	long	i;
 
 	i = current_time();
-	while (!(args->is_died))
+	while (1)
 	{
 		if (current_time() - i >= bar)
 			break ;
@@ -64,7 +68,7 @@ void	join_threads(t_main *args)
 	while (++i < args->number_of_philos)
 	{
 		if (pthread_join(args->philo[i].number_of_philo, NULL))
-			exit(1);
+			return ;
 	}
 	i = 0;
 	while (i < args->number_of_philos)
@@ -88,4 +92,8 @@ void	init_argument(t_main *args, char **av)
 	args->is_died = 0;
 	args->all_eat = 0;
 	args->start_time = current_time();
+	if (av[5] != 0)
+		args->number_of_mealls = ft_atoi(av[5]);
+	else
+		args->number_of_mealls = -1;
 }

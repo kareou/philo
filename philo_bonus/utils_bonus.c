@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:31:38 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/08 11:36:43 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:01:33 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ void	picking(t_philo *philo)
 	sem_wait(args->forks);
 	print_task(args, "has taken a fork", philo->id);
 	print_task(args, "is eating", philo->id);
-	philo->meal_eated++;
+	sem_wait(args->time);
 	philo->last_meal = current_time();
+	sem_post(args->time);
+	philo->meal_eated++;
 	better_usleep(args, args->time_to_eat);
 	sem_post(args->forks);
 	sem_post(args->forks);

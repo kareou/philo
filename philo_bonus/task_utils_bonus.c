@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:03:07 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/08 11:40:34 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:01:59 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ void	*is_dead(void *phil)
 	args = philo->main;
 	while (1)
 	{
+		sem_wait(args->time);
 		time = (current_time() - philo->last_meal);
+		sem_post(args->time);
 		if (time >= args->time_to_die)
 		{
 			sem_wait(args->died);
@@ -91,6 +93,10 @@ void	init_semphor(t_main *args)
 	args->died = sem_open("/died", O_CREAT, 0777, 1);
 	sem_unlink("/declare");
 	args->declare = sem_open("/declare", O_CREAT, 0777, 1);
+	sem_unlink("/meal");
+	args->meal = sem_open("/meal", O_CREAT, 0777, 1);
+	sem_unlink("/time");
+	args->time = sem_open("/time", O_CREAT, 0777, 1);
 	if (args->number_of_mealls > 0)
 	{
 		sem_unlink("/eat");

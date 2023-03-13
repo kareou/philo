@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 16:00:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 13:48:27 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/12 14:13:26 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_main
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	decalre;
+	pthread_mutex_t	*time;
 }					t_main;
 
 void				picking(t_philo *philo);
@@ -54,7 +55,7 @@ void				is_dead(t_philo *philo, t_main *args);
 int					check_positive(char **a);
 int					start_thread(t_main *args);
 void				*task(void *i);
-void				better_usleep(t_main *args, int bar);
+void				better_usleep(int bar);
 void				check_deads(t_main *args);
 void				join_threads(t_main *args);
 void				check_all_eated(t_main *args);

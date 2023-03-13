@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 11:20:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 13:53:46 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/12 14:13:47 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*task(void *i)
 	{
 		picking(philo);
 		print_task(args, "is sleeping", philo->id);
-		better_usleep(args, args->time_to_sleep);
+		better_usleep(args->time_to_sleep);
 		print_task(args, "is thinking", philo->id);
 	}
 	return (NULL);
@@ -68,20 +68,22 @@ int	main(int ac, char **av)
 {
 	t_main	*args;
 
-	if (ac < 5)
-		return (1);
-	if (!check_positive(av))
-		return (0);
-	args = malloc(sizeof(t_main));
-	if (!args)
-		return (0);
-	if (!init_main(args, av))
+	if (ac == 5 || ac == 6)
 	{
-		free(args);
-		return (0);
+		if (!check_positive(av))
+			return (0);
+		args = malloc(sizeof(t_main));
+		if (!args)
+			return (0);
+		if (!init_main(args, av))
+		{
+			free(args);
+			return (0);
+		}
+		if (!start_thread(args))
+			return (1);
+		check_deads(args);
+		join_threads(args);
 	}
-	if (!start_thread(args))
-		return (1);
-	check_deads(args);
-	join_threads(args);
+	return (1);
 }

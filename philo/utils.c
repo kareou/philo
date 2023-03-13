@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:36:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/05 13:21:23 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/12 14:17:18 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,17 @@ void	picking(t_philo *philo)
 	print_task(args, "has taken a fork", philo->id);
 	if (args->number_of_philos == 1)
 	{
-		better_usleep(args, args->time_to_die);
+		better_usleep(args->time_to_die);
 		return ;
 	}
 	pthread_mutex_lock(&args->forks[philo->fork_right]);
 	print_task(args, "has taken a fork", philo->id);
 	print_task(args, "is eating", philo->id);
+	pthread_mutex_lock(&args->time[philo->id - 1]);
 	philo->last_meal = current_time();
+	pthread_mutex_unlock(&args->time[philo->id - 1]);
 	philo->meal_eated++;
-	better_usleep(args, args->time_to_eat);
+	better_usleep(args->time_to_eat);
 	pthread_mutex_unlock(&args->forks[philo->fork_left]);
 	pthread_mutex_unlock(&args->forks[philo->fork_right]);
 }
@@ -89,17 +91,18 @@ int	init_main(t_main *args, char **av)
 	args->forks = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t));
 	if (!args->forks)
 		return (0);
+	args->time = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t));
+	if (!args->time)
+		return (0);
 	init_argument(args, av);
 	if (pthread_mutex_init(&args->decalre, NULL))
 		return (0);
-	if (av[5] != 0)
-		args->number_of_mealls = ft_atoi(av[5]);
-	else
-		args->number_of_mealls = -1;
 	i = -1;
 	while (++i < args->number_of_philos)
 	{
 		if (pthread_mutex_init(&args->forks[i], NULL))
+			return (0);
+		if (pthread_mutex_init(&args->time[i], NULL))
 			return (0);
 	}
 	return (1);
@@ -118,10 +121,10 @@ int	start_thread(t_main *args)
 		args->philo[i].fork_right = (i + 1) % args->number_of_philos;
 		args->philo[i].meal_eated = 0;
 		args->philo[i].main = args;
+		args->philo[i].last_meal = current_time();
 		if (pthread_create(&args->philo[i].number_of_philo, NULL, &task,
 				&args->philo[i]))
 			return (0);
-		args->philo[i].last_meal = current_time();
 	}
 	return (1);
 }

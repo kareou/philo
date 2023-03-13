@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:46:20 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/08 11:41:07 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/12 16:53:34 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int	main(int ac, char **av)
 		}
 		sem_close(args->declare);
 		sem_unlink("/declare");
+		sem_close(args->meal);
+		sem_unlink("/meal");
 		free(args->philo);
 	}
 	return (1);
