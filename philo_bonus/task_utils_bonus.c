@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:03:07 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/13 11:01:59 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/13 15:10:10 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@ void	*is_dead(void *phil)
 		}
 		if (args->number_of_mealls > 0 && args->eat_trgr == 0)
 		{
+			sem_wait(args->meal);
 			if (philo->meal_eated >= args->number_of_mealls)
 			{
 				sem_post(args->eat);
+				printf("fgkhdfhkdfhgkfhgjkhfdghkfghdkjg\n");
 				args->eat_trgr = 1;
 			}
+			sem_post(args->meal);
 		}
 	}
 	return (NULL);
@@ -80,6 +83,8 @@ void	wait_chillds(t_main *args)
 	if (args->number_of_mealls > 0)
 		pthread_create(&tmp, NULL, test, args);
 	waitpid(-1, 0, 0);
+	if (args->number_of_mealls > 0)
+		pthread_join(tmp,NULL);
 	while (++i < args->number_of_philos)
 		kill(args->id_tabel[i], 15);
 	free(args->id_tabel);
