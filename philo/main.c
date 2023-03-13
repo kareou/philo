@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 11:20:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/12 14:13:47 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:19:31 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,17 @@ void	check_all_eated(t_main *args)
 	i = -1;
 	while (++i < args->number_of_philos)
 	{
+		pthread_mutex_lock(&args->eating[i]);
 		if (args->philo[i].meal_eated < args->number_of_mealls)
+		{
+			pthread_mutex_unlock(&args->eating[i]);
 			return ;
+		}
+		pthread_mutex_unlock(&args->eating[i]);
 	}
+	pthread_mutex_lock(&args->decalre);
 	args->all_eat = 1;
+	pthread_mutex_unlock(&args->decalre);
 }
 
 //TIME COUNTER
@@ -54,7 +61,7 @@ void	*task(void *i)
 	args = philo->main;
 	if (philo->id % 2 == 0)
 		usleep(1500);
-	while (!(args->is_died) && !(args->all_eat))
+	while (!is_died(args, 0) && !(args->all_eat))
 	{
 		picking(philo);
 		print_task(args, "is sleeping", philo->id);

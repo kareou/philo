@@ -6,12 +6,22 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 12:37:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/12 14:14:54 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:20:32 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int is_died(t_main *main, int i)
+{
+	int ret;
+	pthread_mutex_lock(&main->decalre);
+	if(i)
+		main->is_died = i;
+	ret = main->is_died;
+	pthread_mutex_unlock(&main->decalre);
+	return(ret);
+}
 // CHECK IF A PHILO DIED
 void	is_dead(t_philo *philo, t_main *args)
 {
@@ -27,9 +37,7 @@ void	is_dead(t_philo *philo, t_main *args)
 		if (time >= args->time_to_die)
 		{
 			print_task(args, "died", i + 1);
-			pthread_mutex_lock(&args->decalre);
-			args->is_died = 1;
-			pthread_mutex_unlock(&args->decalre);
+			is_died(args,1);
 		}
 	}
 }
@@ -74,6 +82,8 @@ void	join_threads(t_main *args)
 	while (i < args->number_of_philos)
 	{
 		pthread_mutex_destroy(&args->forks[i]);
+		pthread_mutex_destroy(&args->eating[i]);
+		pthread_mutex_destroy(&args->time[i]);
 		i++;
 	}
 	pthread_mutex_destroy(&args->decalre);

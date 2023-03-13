@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:36:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/12 14:17:18 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:04:47 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	picking(t_philo *philo)
 	pthread_mutex_lock(&args->time[philo->id - 1]);
 	philo->last_meal = current_time();
 	pthread_mutex_unlock(&args->time[philo->id - 1]);
+	pthread_mutex_lock(&args->eating[philo->id - 1]);
 	philo->meal_eated++;
+	pthread_mutex_unlock(&args->eating[philo->id - 1]);
 	better_usleep(args->time_to_eat);
 	pthread_mutex_unlock(&args->forks[philo->fork_left]);
 	pthread_mutex_unlock(&args->forks[philo->fork_right]);
@@ -94,6 +96,9 @@ int	init_main(t_main *args, char **av)
 	args->time = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t));
 	if (!args->time)
 		return (0);
+	args->eating = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t));
+	if (!args->eating)
+		return (0);
 	init_argument(args, av);
 	if (pthread_mutex_init(&args->decalre, NULL))
 		return (0);
@@ -104,6 +109,8 @@ int	init_main(t_main *args, char **av)
 			return (0);
 		if (pthread_mutex_init(&args->time[i], NULL))
 			return (0);
+		if (pthread_mutex_init(&args->eating[i], NULL))
+		return (0);
 	}
 	return (1);
 }
