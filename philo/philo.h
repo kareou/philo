@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 16:00:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/13 12:20:06 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:45:54 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void				check_deads(t_main *args);
 void				join_threads(t_main *args);
 void				check_all_eated(t_main *args);
 void				init_argument(t_main *args, char **av);
-int is_died(t_main *main, int i);
+int					is_died(t_main *main, int i);
+int					alloc_argument(t_main *args, char **av);
+int					is_died(t_main *main, int i);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:46:20 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/12 16:53:34 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:13:52 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,14 @@ long long	current_time(void)
 void	print_task(t_main *args, char *a, int i)
 {
 	sem_wait(args->declare);
+	printf("%lld %d %s\n", (current_time() - args->start_time), i, a);
+	sem_post(args->declare);
+}
+
+void	print_dead(t_main *args, char *a, int i)
+{
 	if (!args->is_died)
 		printf("%lld %d %s\n", (current_time() - args->start_time), i, a);
-	sem_post(args->declare);
 }
 
 void	*task(t_philo *philo)
@@ -33,8 +38,6 @@ void	*task(t_philo *philo)
 	t_main	*args;
 
 	args = philo->main;
-	if (philo->id % 2 == 0)
-		usleep(1500);
 	if (pthread_create(&philo->death, NULL, &is_dead, philo))
 		exit(1);
 	while (!(args->is_died))
@@ -60,20 +63,7 @@ int	main(int ac, char **av)
 		init_main(args, av);
 		init_semphor(args);
 		start_thread(args);
-		sem_close(args->forks);
-		sem_unlink("/forks");
-		sem_close(args->died);
-		sem_unlink("/died");
-		if (args->number_of_mealls > 0)
-		{
-			sem_post(args->eat);
-			sem_close(args->eat);
-			sem_unlink("/eat");
-		}
-		sem_close(args->declare);
-		sem_unlink("/declare");
-		sem_close(args->meal);
-		sem_unlink("/meal");
+		close_sema(args);
 		free(args->philo);
 	}
 	return (1);

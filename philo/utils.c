@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:36:51 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/13 12:04:47 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:35:01 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ int	ft_atoi(char *str)
 	}
 	else if (str[i] == '+')
 		i++;
-	while (str && str[i] >= 48 && str[i] <= 57)
+	while (str[i])
 	{
+		if (str[i] < 48 || str[i] > 57)
+			return (0);
 		res = res * 10;
 		res = res + str[i] - 48;
 		i++;
@@ -87,17 +89,7 @@ int	init_main(t_main *args, char **av)
 {
 	int	i;
 
-	args->philo = malloc(ft_atoi(av[1]) * sizeof(t_philo));
-	if (!args->philo)
-		return (0);
-	args->forks = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t));
-	if (!args->forks)
-		return (0);
-	args->time = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t));
-	if (!args->time)
-		return (0);
-	args->eating = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t));
-	if (!args->eating)
+	if (!alloc_argument(args, av))
 		return (0);
 	init_argument(args, av);
 	if (pthread_mutex_init(&args->decalre, NULL))
@@ -110,7 +102,7 @@ int	init_main(t_main *args, char **av)
 		if (pthread_mutex_init(&args->time[i], NULL))
 			return (0);
 		if (pthread_mutex_init(&args->eating[i], NULL))
-		return (0);
+			return (0);
 	}
 	return (1);
 }

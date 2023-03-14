@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC = main_bonus.c utils_bonus.c task_utils_bonus.c
+SRC = main_bonus.c utils_bonus.c task_utils_bonus.c colose_semaphores_bonus.c
 
 all = $(NAME)
 
@@ -16,9 +16,9 @@ $(NAME): $(OBJ)
 all : $(NAME)
 
 clean :
-	$(RM) *.o
+	@$(RM) $(OBJ)
 
 fclean : clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re : fclean all

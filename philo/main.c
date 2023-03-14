@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 11:20:21 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/13 12:19:31 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:41:58 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	print_task(t_main *args, char *a, int i)
 {
 	pthread_mutex_lock(&args->decalre);
-	if (!args->is_died)
+	if (!args->is_died && !args->all_eat)
 		printf("%lld %d %s\n", (current_time() - args->start_time), i, a);
 	pthread_mutex_unlock(&args->decalre);
 }

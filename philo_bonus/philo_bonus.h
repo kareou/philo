@@ -6,7 +6,7 @@
 /*   By: mkhairou <mkhairou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:19:35 by mkhairou          #+#    #+#             */
-/*   Updated: 2023/03/12 16:51:05 by mkhairou         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:26:57 by mkhairou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,9 @@ void				print_task(t_main *args, char *a, int i);
 int					check_positive(char **a);
 void				wait_chillds(t_main *args);
 void				init_semphor(t_main *args);
+void				print_dead(t_main *args, char *a, int i);
+void				close_sema(t_main *args);
+void				check_mealls(t_main *args, t_philo *philo);
+void				exit_proc(t_main *args);
 
 #endif

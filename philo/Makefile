@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC = main.c utils.c task_utils.c
+SRC = main.c utils.c task_utils.c alloc_.c
 
 all = $(NAME)
 
@@ -16,7 +16,7 @@ $(NAME): $(OBJ)
 all : $(NAME)
 
 clean :
-	$(RM) *.o
+	$(RM) $(OBJ)
 
 fclean : clean
 	$(RM) $(NAME)
