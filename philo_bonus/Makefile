@@ -2,7 +2,7 @@ NAME = philo_bonus
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 
 SRC = main_bonus.c utils_bonus.c task_utils_bonus.c colose_semaphores_bonus.c
 
